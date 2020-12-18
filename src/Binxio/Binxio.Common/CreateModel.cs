@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Binxio.Common.Projects
+namespace Binxio.Common
 {
-    public class ProjectCreateModel : CreateModel
+    public class CreateModel 
     {
     }
 }

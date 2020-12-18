@@ -10,6 +10,6 @@ namespace Binxio.Abstractions
     {
         Task<XioResult<ProjectModel>> GetProject(string project);
         Task<XioResult<IEnumerable<ProjectModel>>> GetProjects();
-        Task<XioResult<ProjectModel>> Create(ProjectCreateModel model);
+        Task<XioResult> Create(ProjectCreateModel model);
     }
 }

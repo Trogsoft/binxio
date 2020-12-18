@@ -5,7 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Fleck" Version="1.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.10" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Binxio.Abstractions\Binxio.Abstractions.csproj" />
+    <ProjectReference Include="..\Binxio.Data\Binxio.Data.csproj" />
   </ItemGroup>
 
 </Project>

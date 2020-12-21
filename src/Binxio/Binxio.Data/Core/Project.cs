@@ -1,6 +1,6 @@
 ﻿namespace Binxio.Data
 {
-    public class Project : ICodedObject
+    public class Project : CodedObject
     {
         public long Id { get; set; }
         public string UrlPart { get; set; }

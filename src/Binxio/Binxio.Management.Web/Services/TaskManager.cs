@@ -11,10 +11,12 @@ namespace Binxio.Management.Web.Services
     public class TaskManager : ITaskManager
     {
         private readonly IServiceScope scope;
+        private readonly WebSocketMessenger wsm;
 
-        public TaskManager(IServiceScopeFactory scopeFactory)
+        public TaskManager(IServiceScopeFactory scopeFactory, WebSocketMessenger wsm)
         {
             this.scope = scopeFactory.CreateScope();
+            this.wsm = wsm;
         }
 
         public XioResult Create<TTask, TModel, TResult>(TModel model, string title) where TTask : ITaskBase<TModel, TResult>
@@ -25,6 +27,7 @@ namespace Binxio.Management.Web.Services
             {
                 var tracker = scope.ServiceProvider.GetService<ITaskTracker>();
                 tracker.SetOperationId(checkResult.OperationId);
+                checkResult.Status = ResultStatus.Pending;
                 Task.Run(() =>
                 {
                     var result = task.Execute(model, tracker);

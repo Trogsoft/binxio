@@ -7,9 +7,16 @@ namespace Binxio.Common
         public Guid OperationId { get; set; } = Guid.NewGuid();
         public ResultStatus Status { get; set; } = ResultStatus.Pending;
         public string Message { get; set; }
+        public bool IsSuccessful
+        {
+            get
+            {
+                return Status == ResultStatus.Success;
+            }
+        }
 
-        public XioResult(bool success) => Status = ResultStatus.Success;
-        public XioResult(bool success, string message) : this(success) => this.Message = message; 
+        public XioResult(bool success) => Status = success ? ResultStatus.Success : ResultStatus.Failed;
+        public XioResult(bool success, string message) : this(success) => this.Message = message;
 
     }
 

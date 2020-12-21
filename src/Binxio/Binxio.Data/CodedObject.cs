@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Binxio.Data
 {
-    public class ICodedObject
+    public class CodedObject
     {
-        string UrlPart { get; set; }
+        public string UrlPart { get; set; }
     }
 }

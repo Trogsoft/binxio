@@ -13,35 +13,48 @@ namespace Binxio.Management.Web.Services
     {
         private readonly BinxioDb db;
         private readonly IXioMapper mapper;
+        private readonly IXioLog<ClientRepository> log;
 
-        public ClientRepository(BinxioDb db, IXioMapper mapper)
+        public ClientRepository(BinxioDb db, IXioMapper mapper, IXioLog<ClientRepository> log)
         {
             this.db = db;
             this.mapper = mapper;
+            this.log = log;
         }
 
         public XioResult<ClientModel> GetClient(ClientSpecModel model)
         {
 
+            log.DescribeOperation("GetClient");
+
             if (model.MicrosoftTenantId != Guid.Empty)
             {
                 var existing = db.Clients.SingleOrDefault(x => x.MicrosoftTenantId == model.MicrosoftTenantId);
                 if (existing != null)
+                {
+                    log.LogInformation("GetClient returned existing client.", ("client", existing.UrlPart));
                     return new XioResult<ClientModel>(true, mapper.Map<ClientModel>(existing));
+                }
             }
 
             if (!string.IsNullOrWhiteSpace(model.UrlPart))
             {
                 var existing = db.Clients.SingleOrDefault(x => x.UrlPart == model.UrlPart);
                 if (existing != null)
+                {
+                    log.LogInformation("GetClient returned existing client.", ("client", existing.UrlPart));
                     return new XioResult<ClientModel>(true, mapper.Map<ClientModel>(existing));
+                }
             }
 
             if (model.Id > 0)
             {
                 var existing = db.Clients.SingleOrDefault(x => x.Id == model.Id);
                 if (existing != null)
+                {
+                    log.LogInformation("GetClient returned existing client.", ("client", existing.UrlPart));
                     return new XioResult<ClientModel>(true, mapper.Map<ClientModel>(existing));
+                }
             }
 
             // this is a create
@@ -55,6 +68,7 @@ namespace Binxio.Management.Web.Services
                 UrlPart = db.GetUrlPart<Client>(model.Title)
             });
             db.SaveChanges();
+            log.LogInformation("GetClient created new client.", ("client", newClient.Entity.UrlPart));
             return new XioResult<ClientModel>(true, mapper.Map<ClientModel>(newClient.Entity));
 
         }

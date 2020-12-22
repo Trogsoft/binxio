@@ -15,6 +15,6 @@ namespace Binxio.Abstractions
         void LogError(Exception exception);
         void Complete(bool success);
         T StoreResult<T>(T resultObject);
-        void Initialize(ClaimsPrincipal user, Guid operationId, string taskTitle);
+        void Initialize(ClaimsPrincipal user, string operationId, string taskTitle);
     }
 }

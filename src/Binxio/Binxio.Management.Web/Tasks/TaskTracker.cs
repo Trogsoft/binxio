@@ -15,7 +15,7 @@ namespace Binxio.Management.Web.Tasks
         private readonly ILogger<ITaskTracker> logger;
         private readonly IHubContext<RealtimeHub> hub;
 
-        public Guid OperationId { get; private set; } = Guid.Empty;
+        public string OperationId { get; private set; } = Guid.Empty.ToString();
         public string UserUrlPart { get; private set; } = null;
         public string TaskTitle { get; private set; }
 
@@ -25,7 +25,7 @@ namespace Binxio.Management.Web.Tasks
             this.hub = hub;
         }
 
-        public void Initialize(ClaimsPrincipal user, Guid operationId, string taskTitle)
+        public void Initialize(ClaimsPrincipal user, string operationId, string taskTitle)
         {
             OperationId = operationId;
             UserUrlPart = user.FindFirstValue(ClaimTypes.NameIdentifier);

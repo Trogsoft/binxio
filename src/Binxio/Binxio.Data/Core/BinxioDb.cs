@@ -19,9 +19,26 @@ namespace Binxio.Data
         public DbSet<Client> Clients { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Log> Log { get; set; }
+        public DbSet<LogContext> LogContext { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            modelBuilder.Entity<Log>(l =>
+            {
+                l.HasMany(x => x.Context)
+                .WithOne(x => x.Log)
+                .HasForeignKey(x => x.LogId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+                l.HasOne(x => x.User)
+                .WithMany()
+                .HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            });
+
             modelBuilder.Entity<Provider>(p =>
             {
                 p.HasMany(x => x.Clients)

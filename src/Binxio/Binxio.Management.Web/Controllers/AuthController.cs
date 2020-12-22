@@ -23,12 +23,14 @@ namespace Binxio.Management.Web.Controllers
         private readonly IHttpClientFactory httpFactory;
         private readonly IClientRepository clients;
         private readonly IUserRepository users;
+        private readonly IXioLog<AuthController> log;
 
-        public AuthController(IHttpClientFactory httpFactory, IClientRepository clients, IUserRepository users)
+        public AuthController(IHttpClientFactory httpFactory, IClientRepository clients, IUserRepository users, IXioLog<AuthController> log)
         {
             this.httpFactory = httpFactory;
             this.clients = clients;
             this.users = users;
+            this.log = log;
         }
 
         [Route("login")]
@@ -44,6 +46,8 @@ namespace Binxio.Management.Web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ReceiveSSOCode(string code, string session_state)
         {
+
+            log.DescribeOperation("Microsoft SSO Login");
 
             // The secret for the authentication is stored in Azure Key Vault.  Without this, you can not authenticate using this method.
             var client = new SecretClient(vaultUri: new Uri("https://binxio.vault.azure.net/"), credential: new DefaultAzureCredential());
@@ -63,6 +67,7 @@ namespace Binxio.Management.Web.Controllers
             if (request.IsSuccessStatusCode)
             {
 
+                log.LogInformation("Token request successful.");
                 var graph = httpFactory.CreateClient("msGraph");
 
                 // token
@@ -76,6 +81,7 @@ namespace Binxio.Management.Web.Controllers
                 var orgResponse = await graph.SendAsync(orgRequest);
                 if (orgResponse.IsSuccessStatusCode)
                 {
+                    log.LogInformation("Organization information request successful.");
                     var org = JsonConvert.DeserializeObject<dynamic>(orgResponse.Content.ReadAsStringAsync().Result);
                     if (((JArray)org.value).Count > 0)
                     {
@@ -96,6 +102,10 @@ namespace Binxio.Management.Web.Controllers
                 }
                 else
                 {
+                    log.LogError("Unable to read information from Microsoft Graph endpoint /organization",
+                        ("statusCode", orgResponse.StatusCode.ToString()),
+                        ("errorMessage", orgResponse.Content.ReadAsStringAsync().Result));
+
                     return Content(orgResponse.Content.ReadAsStringAsync().Result);
                 }
 
@@ -104,6 +114,7 @@ namespace Binxio.Management.Web.Controllers
                 var meResponse = await graph.SendAsync(meRequest);
                 if (meResponse.IsSuccessStatusCode)
                 {
+                    log.LogInformation("Request for user information successful.");
                     var content = await meResponse.Content.ReadAsStringAsync();
                     var jobj = JsonConvert.DeserializeObject<dynamic>(content);
                     var extant = await users.UserExists(new SingleUserQueryModel(emailAddress: (string)jobj.mail));
@@ -134,11 +145,19 @@ namespace Binxio.Management.Web.Controllers
                 }
                 else
                 {
+                    log.LogError("Unable to read information from Microsoft Graph endpoint /me",
+                        ("statusCode", meResponse.StatusCode.ToString()),
+                        ("errorMessage", meResponse.Content.ReadAsStringAsync().Result));
+
                     return Content(meResponse.Content.ReadAsStringAsync().Result);
                 }
             }
             else
             {
+                log.LogError("Token request failed.", 
+                    ("statusCode", request.StatusCode.ToString()), 
+                    ("errorMessage", request.Content.ReadAsStringAsync().Result));
+
                 return Content(request.Content.ReadAsStringAsync().Result);
             }
         }

@@ -4,7 +4,7 @@ namespace Binxio.Common
 {
     public class XioResult
     {
-        public Guid OperationId { get; set; } = Guid.NewGuid();
+        public string OperationId { get; set; } = Guid.NewGuid().ToString();
         public ResultStatus Status { get; set; } = ResultStatus.Pending;
         public string Message { get; set; }
         public bool IsSuccessful

@@ -61,12 +61,15 @@ namespace Binxio.Management.Web
             services.AddHttpContextAccessor();
 
             services.AddSingleton<ITaskManager, TaskManager>();
+            services.AddSingleton<ILogWriter, LogWriter>();
 
             services.AddTransient<IXioMapper, BinxioMapper>();
             services.AddTransient<IProjectManager, ProjectManager>();
             services.AddTransient<ITaskTracker, TaskTracker>();
             services.AddTransient<IClientRepository, ClientRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
+
+            services.AddScoped(typeof(IXioLog<>), typeof(XioLog<>));
 
             services.AddSignalR();
 

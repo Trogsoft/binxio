@@ -55,10 +55,20 @@ namespace Binxio.Management.Web.Services
         }
 
         private string Description;
+        private string userId;
 
         public void DescribeOperation(string description)
         {
             this.Description = description;
+            logWriter.Write(new XioLogEntry
+            {
+                ContextId = LocalOperationId,
+                Level = XioLogLevel.Description,
+                Message = description,
+                OperationId = OperationId,
+                Time = DateTime.Now,
+                UserId = userId ?? httpcx.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier)
+            });
         }
 
         private void writeLog(XioLogLevel level, string message, params (string, string)[] context)
@@ -67,10 +77,9 @@ namespace Binxio.Management.Web.Services
             {
                 ContextId = LocalOperationId,
                 Level = level,
-                IsContextTitle = false,
                 Message = message,
                 Time = DateTime.Now,
-                UserId = httpcx.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier),
+                UserId = userId ?? httpcx.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier),
                 OperationId = OperationId,
                 Context = context.ToDictionary(x => x.Item1, x => x.Item2)
             });
@@ -107,5 +116,9 @@ namespace Binxio.Management.Web.Services
         public XioResult<R> GetResult<R>(bool success, R payload) => new XioResult<R>(success, payload);
         public XioResult<R> GetResult<R>(bool success, string message, R payload) => new XioResult<R>(success, message, payload);
 
+        public void OverrideUser(ClaimsPrincipal user)
+        {
+            this.userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+        }
     }
 }

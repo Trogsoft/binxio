@@ -46,7 +46,7 @@ namespace Binxio.Management.Web.Services
                                 var l = new Log();
                                 l.OperationId = item.OperationId;
                                 l.ContextId = item.ContextId;
-                                l.DescribesContextOperation = item.IsContextTitle;
+                                l.Level = item.Level;
                                 l.Message = item.Message;
                                 l.Time = item.Time;
                                 l.UserId = db.Users.SingleOrDefault(x => x.UrlPart == item.UserId)?.Id;

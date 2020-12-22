@@ -14,6 +14,5 @@ namespace Binxio.Common
         public string Message { get; set; }
         public XioLogLevel Level { get; set; }
         public Dictionary<string, string> Context { get; set; } = new Dictionary<string, string>();
-        public bool IsContextTitle { get; set; }
     }
 }

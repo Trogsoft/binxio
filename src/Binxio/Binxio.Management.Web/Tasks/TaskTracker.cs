@@ -12,14 +12,14 @@ namespace Binxio.Management.Web.Tasks
 {
     public class TaskTracker : ITaskTracker
     {
-        private readonly ILogger<ITaskTracker> logger;
+        private readonly IXioLog<ITaskTracker> logger;
         private readonly IHubContext<RealtimeHub> hub;
 
         public string OperationId { get; private set; } = Guid.Empty.ToString();
         public string UserUrlPart { get; private set; } = null;
         public string TaskTitle { get; private set; }
 
-        public TaskTracker(ILogger<ITaskTracker> logger, IHubContext<RealtimeHub> hub)
+        public TaskTracker(IXioLog<ITaskTracker> logger, IHubContext<RealtimeHub> hub)
         {
             this.logger = logger;
             this.hub = hub;
@@ -31,6 +31,8 @@ namespace Binxio.Management.Web.Tasks
             UserUrlPart = user.FindFirstValue(ClaimTypes.NameIdentifier);
             TaskTitle = taskTitle;
             hub.Clients.User(UserUrlPart).SendAsync("taskBegin", new { OperationId, TaskTitle });
+            logger.DescribeOperation(taskTitle);
+            logger.OverrideUser(user);
         }
 
         public void Complete(bool success)
@@ -41,24 +43,23 @@ namespace Binxio.Management.Web.Tasks
 
         public void LogError(string message)
         {
-            logger.LogError(message, OperationId);
+            logger.LogError(message);
             hub.Clients.User(UserUrlPart).SendAsync("taskError", new { OperationId, TaskTitle, message });
         }
 
         public void LogError(Exception exception)
         {
-            logger.LogError(exception, exception.Message, OperationId);
         }
 
         public void LogInformation(string message)
         {
-            logger.LogInformation(message, OperationId);
+            logger.LogInformation(message);
             hub.Clients.User(UserUrlPart).SendAsync("taskInfo", new { OperationId, TaskTitle, message });
         }
 
         public void LogWarning(string message)
         {
-            logger.LogWarning(message, OperationId);
+            logger.LogWarning(message);
             hub.Clients.User(UserUrlPart).SendAsync("taskWarning", new { OperationId, TaskTitle, message });
         }
 
@@ -69,7 +70,7 @@ namespace Binxio.Management.Web.Tasks
 
         public void SetStatusMessage(string message)
         {
-            logger.LogInformation("Current status: " + message, OperationId);
+            logger.LogInformation("Current status: " + message);
             hub.Clients.User(UserUrlPart).SendAsync("taskStatus", new { OperationId, TaskTitle, message });
         }
 

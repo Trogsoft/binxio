@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Binxio.Common;
+using System;
 using System.Collections.Generic;
 
 namespace Binxio.Data
@@ -12,7 +13,7 @@ namespace Binxio.Data
         public string OperationId { get; set; }
         public string ContextId { get; set; }
         public string Message { get; set; }
-        public bool DescribesContextOperation { get; set; } = false;
+        public XioLogLevel Level { get; set; }
         public ICollection<LogContext> Context { get; set; } = new HashSet<LogContext>();
     }
 }

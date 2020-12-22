@@ -81,7 +81,7 @@ namespace Binxio.Management.Web.Services
 
             var claims = new List<Claim>()
             {
-                 new Claim(ClaimTypes.NameIdentifier, model.Id.ToString()),
+                 new Claim(ClaimTypes.NameIdentifier, model.UrlPart),
                  new Claim(ClaimTypes.Name, model.DisplayName),
                  new Claim(ClaimTypes.Email, user.EmailAddress)
             };

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Text;
 
 namespace Binxio.Abstractions
@@ -14,6 +15,6 @@ namespace Binxio.Abstractions
         void LogError(Exception exception);
         void Complete(bool success);
         T StoreResult<T>(T resultObject);
-        void SetOperationId(Guid id);
+        void Initialize(ClaimsPrincipal user, Guid operationId, string taskTitle);
     }
 }

@@ -3,6 +3,7 @@ using Binxio.Common;
 using Binxio.Common.Projects;
 using Binxio.Management.Web.Tasks.Projects;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;

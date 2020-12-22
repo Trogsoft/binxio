@@ -58,16 +58,17 @@ namespace Binxio.Management.Web
                 cfg.BaseAddress = new Uri("https://graph.microsoft.com");
             });
 
-            services.AddHostedService<WebSocketService>();
+            services.AddHttpContextAccessor();
 
             services.AddSingleton<ITaskManager, TaskManager>();
-            services.AddSingleton<WebSocketMessenger>();
 
             services.AddTransient<IXioMapper, BinxioMapper>();
             services.AddTransient<IProjectManager, ProjectManager>();
             services.AddTransient<ITaskTracker, TaskTracker>();
             services.AddTransient<IClientRepository, ClientRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
+
+            services.AddSignalR();
 
             AddTasks(services);
 
@@ -107,6 +108,7 @@ namespace Binxio.Management.Web
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<RealtimeHub>("/rt");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

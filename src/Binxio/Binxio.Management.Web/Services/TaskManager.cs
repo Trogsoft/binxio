@@ -1,5 +1,6 @@
 ﻿using Binxio.Abstractions;
 using Binxio.Common;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -11,12 +12,12 @@ namespace Binxio.Management.Web.Services
     public class TaskManager : ITaskManager
     {
         private readonly IServiceScope scope;
-        private readonly WebSocketMessenger wsm;
+        private readonly IHttpContextAccessor httpcx;
 
-        public TaskManager(IServiceScopeFactory scopeFactory, WebSocketMessenger wsm)
+        public TaskManager(IServiceScopeFactory scopeFactory, IHttpContextAccessor httpcx)
         {
             this.scope = scopeFactory.CreateScope();
-            this.wsm = wsm;
+            this.httpcx = httpcx;
         }
 
         public XioResult Create<TTask, TModel, TResult>(TModel model, string title) where TTask : ITaskBase<TModel, TResult>
@@ -26,7 +27,7 @@ namespace Binxio.Management.Web.Services
             if (checkResult.Status == ResultStatus.Success)
             {
                 var tracker = scope.ServiceProvider.GetService<ITaskTracker>();
-                tracker.SetOperationId(checkResult.OperationId);
+                tracker.Initialize(httpcx.HttpContext.User, checkResult.OperationId, title);
                 checkResult.Status = ResultStatus.Pending;
                 Task.Run(() =>
                 {

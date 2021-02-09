@@ -27,5 +27,5 @@ steps:
   inputs:
     command: 'build'
     projects: 'src/binxio/binxio.management.web/binxio.management.web.csproj'
-    arguments: '/p:DeployOnBuild=true /p:PublishProfile=dev.manage.binxio.net /p:Password=${env:DEPLOY}'
+    arguments: '/p:DeployOnBuild=true /p:PublishProfile=dev.manage.binxio.net.pubxml /p:Password=${env:DEPLOY}'
 

@@ -19,4 +19,5 @@ steps:
   displayName: 'dotnet build'
   inputs:
     command: 'build'
+    projects: 'src/binxio/binxio.sln'
     arguments: '--no-restore'

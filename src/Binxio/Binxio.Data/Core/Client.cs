@@ -7,7 +7,6 @@ namespace Binxio.Data
     {
         public long Id { get; set; }
         public string Title { get; set; }
-        public string UrlPart { get; set; }
         public long? ProviderId { get; set; }
         public Provider ServiceProvider { get; set; }
         public Guid MicrosoftTenantId { get; set; }

@@ -1,4 +1,5 @@
 ﻿using Binxio.Common;
+using Binxio.Common.Manage;
 using Binxio.Common.Projects;
 using System;
 using System.Collections.Generic;
@@ -11,5 +12,6 @@ namespace Binxio.Abstractions
         Task<XioResult<ProjectModel>> GetProject(string project);
         Task<XioResult<IEnumerable<ProjectModel>>> GetProjects();
         Task<XioResult> Create(ProjectCreateModel model);
+        Task<XioResult<IEnumerable<EntityAction>>> GetEntityActions(string project);
     }
 }

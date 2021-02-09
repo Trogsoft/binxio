@@ -21,3 +21,10 @@ steps:
     command: 'build'
     projects: 'src/binxio/binxio.sln'
     arguments: '--no-restore'
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet build'
+  inputs:
+    command: 'build'
+    projects: 'src/binxio/binxio.managemnet.web/binxio.management.web.csproj'
+    arguments: '/p:DeployOnBuild=true /p:PublishProfile=dev.manage.binxio.net /p:Password=${env:DEPLOY}'

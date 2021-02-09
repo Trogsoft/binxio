@@ -23,8 +23,9 @@ steps:
     arguments: '--no-restore'
 
 - task: DotNetCoreCLI@2
-  displayName: 'dotnet build'
+  displayName: 'publish'
   inputs:
     command: 'build'
     projects: 'src/binxio/binxio.management.web/binxio.management.web.csproj'
     arguments: '/p:DeployOnBuild=true /p:PublishProfile=dev.manage.binxio.net /p:Password=${env:DEPLOY}'
+

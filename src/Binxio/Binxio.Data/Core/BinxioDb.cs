@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Binxio.Common.Manage;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -61,6 +63,16 @@ namespace Binxio.Data
             });
 
             base.OnModelCreating(modelBuilder);
+        }
+
+        public IEnumerable<Entity> GetEntities(string type)
+        {
+
+            if (type.Equals("client", StringComparison.CurrentCultureIgnoreCase))
+                return this.Clients.Select(x => new Entity { Id = x.Id, Title = x.Title, UrlPart = x.UrlPart }).OrderBy(x => x.Title).ToList();
+
+            return null;
+
         }
 
         public string GetUrlPart<T>(string displayName) where T : CodedObject

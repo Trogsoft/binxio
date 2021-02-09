@@ -1,6 +1,7 @@
 ﻿using Binxio.Abstractions;
 using Binxio.Common;
 using Binxio.Common.Clients;
+using Binxio.Common.Manage;
 using Binxio.Data;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Binxio.Management.Web.Services
 {
+    [XioEntityManager("client")]
     public class ClientRepository : IClientRepository
     {
         private readonly BinxioDb db;
@@ -20,6 +22,13 @@ namespace Binxio.Management.Web.Services
             this.db = db;
             this.mapper = mapper;
             this.log = log;
+        }
+
+
+        [XioGetEntity(typeof(ClientModel))]
+        public XioResult<ClientModel> GetClient(string urlPart)
+        {
+            return GetClient(new ClientSpecModel { UrlPart = urlPart });
         }
 
         public XioResult<ClientModel> GetClient(ClientSpecModel model)

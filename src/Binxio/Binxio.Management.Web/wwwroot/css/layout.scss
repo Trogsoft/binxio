@@ -1,4 +1,5 @@
 ﻿body {
+    background-color: #d0d8ca;
 }
 
 .menu {
@@ -49,7 +50,15 @@
 }
 
 .content {
-    margin-top: 60px;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .task-alert {
@@ -60,7 +69,122 @@
     border: 1px solid #dedede;
     padding: 10px;
     box-shadow: 0 0 3px #999;
+
     .title {
         font-weight: bold;
     }
+}
+
+.blade {
+    background-color: white;
+    min-width: 320px;
+    height: 100%;
+    border: 1px solid #898989;
+    display: flex;
+    flex-direction: column;
+
+    h1 {
+        font-size: 22px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    .blade-title {
+        padding: 8px;
+        border-bottom: 1px solid #898989;
+        font-weight: bold;
+        justify-content: space-between;
+        display: flex;
+        min-height: 30px;
+    }
+
+    .blade-buttons {
+        min-height: 50px;
+        padding: 8px;
+        position: absolute;
+        bottom: 0;
+    }
+
+    .blade-options {
+        display: flex;
+        text-align: right;
+        border-bottom: 1px solid #898989;
+        min-height: 40px;
+    }
+
+    .blade-content {
+        overflow: auto;
+        padding: 8px;
+        flex: 1;
+
+        table.entity-list {
+            width: 100%;
+
+            th, td {
+                border-bottom: 1px solid black;
+                padding: 4px;
+            }
+
+            tbody {
+                tr:hover {
+                    background-color: #dedede;
+                }
+            }
+        }
+    }
+
+    .blade-buttons {
+        position: relative;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 50px;
+        border-top: 1px solid #898989;
+    }
+
+    .control {
+        margin-bottom: 4px;
+
+        label {
+            display: block;
+        }
+
+        .control-input {
+            width: 100%;
+            padding: 4px;
+        }
+    }
+}
+
+.blade.full-width {
+    min-width: 100vw;
+}
+
+
+.blade-default {
+    display: block;
+}
+
+.blade-fixed {
+    top: 60px;
+    width: 100%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+}
+
+.hp-nav {
+    h1 {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+    }
+
+    width: 50%;
 }

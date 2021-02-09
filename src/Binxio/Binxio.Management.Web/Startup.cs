@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Binxio.Abstractions;
+using Binxio.Common.Abstractions;
 using Binxio.Data;
 using Binxio.Management.Web.Services;
 using Binxio.Management.Web.Tasks;
@@ -23,6 +24,8 @@ namespace Binxio.Management.Web
         {
             Configuration = configuration;
         }
+
+        private Dictionary<string, Type> ModelValidators = new Dictionary<string, Type>(); 
 
         public IConfiguration Configuration { get; }
 
@@ -62,6 +65,7 @@ namespace Binxio.Management.Web
 
             services.AddSingleton<ITaskManager, TaskManager>();
             services.AddSingleton<ILogWriter, LogWriter>();
+            services.AddSingleton<Mapper>();
 
             services.AddTransient<IXioMapper, BinxioMapper>();
             services.AddTransient<IProjectManager, ProjectManager>();
@@ -73,6 +77,11 @@ namespace Binxio.Management.Web
 
             services.AddSignalR();
 
+            services.AddTransient<XioServiceResolver>(isp =>
+            {
+                return new XioServiceResolver(ModelValidators);
+            });
+
             AddTasks(services);
 
         }
@@ -81,6 +90,16 @@ namespace Binxio.Management.Web
         {
 
             foreach (var type in AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes().Where(y => typeof(ITaskBase).IsAssignableFrom(y) && !y.IsAbstract && !y.IsInterface && y.IsPublic)))
+            {
+                services.AddTransient(type);
+            }
+
+        }
+
+        private void AddModelValidators(IServiceCollection services)
+        {
+
+            foreach (var type in AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes().Where(y => typeof(IModelValidator).IsAssignableFrom(y) && !y.IsAbstract && !y.IsInterface && y.IsPublic)))
             {
                 services.AddTransient(type);
             }

@@ -3,27 +3,44 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome, @User.FindFirst(ClaimTypes.Name).Value</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
-
-<button class="btn btn-default btn-lg start-bg">
-    Start Background Task
-</button>
+<div class="blade blade-fixed blade-default">
+    <div class="custom-layout">
+        <div class="d-flex justify-content-around">
+            <div class="hp-nav">
+                <h1>Resources</h1>
+                <div class="fp-resources">
+                    <a href="#" class="resource" data-target="blade" data-blade-class="listEntities" data-blade-type="Project"><div class="icon"><i class="fas fa-project-diagram"></i></div><label>Projects</label></a>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        <h2>Setup</h2>
+                        <button class="btn btn-outline-primary btn-block" data-target="blade" data-blade-class="createEntity" data-blade-type="Project"><i class="fas fa-page"></i> Create a Project</button>
+                    </div>
+                    <div class="col-3">
+                        <h2>Data Gathering</h2>
+                        <button class="create-survey btn btn-outline-primary btn-block"><i class="fas fa-page"></i> Create a Survey</button>
+                    </div>
+                    <div class="col-3">
+                        <h2>Data Management</h2>
+                    </div>
+                    <div class="col-3">
+                        <h2>Reporting</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>  
 
 @section scripts {
 
 <script>
     $(function () {
-        $('.start-bg').on('click', function (e) {
-            $.ajax({
-                url: '/home/testbg',
-                type: 'get',
-                cache: false,
-            });
+        $('.create-survey').on('click', function () {
+            $('.blade-default').hide();
+            $('#create-survey-blade').show();
         });
     });
 </script>
 
-} 
+}

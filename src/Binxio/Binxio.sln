@@ -3,13 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Binxio.Management.Web", "Binxio.Management.Web\Binxio.Management.Web.csproj", "{F40B59E6-BB59-40D9-98F5-84E76D06FF92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Binxio.Management.Web", "Binxio.Management.Web\Binxio.Management.Web.csproj", "{F40B59E6-BB59-40D9-98F5-84E76D06FF92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Binxio.Common", "Binxio.Common\Binxio.Common.csproj", "{CF797E04-7C11-4FD7-A76D-DB9BAFF1A86B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Binxio.Common", "Binxio.Common\Binxio.Common.csproj", "{CF797E04-7C11-4FD7-A76D-DB9BAFF1A86B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Binxio.Data", "Binxio.Data\Binxio.Data.csproj", "{83F36350-DEF4-4AEA-A3AB-0FDEB72190D5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Binxio.Abstractions", "Binxio.Abstractions\Binxio.Abstractions.csproj", "{63E3750E-77CC-4C48-ADDF-FEEEEB5B17CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Binxio.Data", "Binxio.Data\Binxio.Data.csproj", "{83F36350-DEF4-4AEA-A3AB-0FDEB72190D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +27,6 @@ Global
 		{83F36350-DEF4-4AEA-A3AB-0FDEB72190D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83F36350-DEF4-4AEA-A3AB-0FDEB72190D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83F36350-DEF4-4AEA-A3AB-0FDEB72190D5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{63E3750E-77CC-4C48-ADDF-FEEEEB5B17CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{63E3750E-77CC-4C48-ADDF-FEEEEB5B17CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{63E3750E-77CC-4C48-ADDF-FEEEEB5B17CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{63E3750E-77CC-4C48-ADDF-FEEEEB5B17CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Binxio.Abstractions\Binxio.Abstractions.csproj" />
+    <ProjectReference Include="..\Binxio.Common\Binxio.Common.csproj" />
   </ItemGroup>
 
 </Project>
